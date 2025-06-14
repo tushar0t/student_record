@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <algorithm>
 
 class Student
 {
@@ -18,22 +19,22 @@ public:
     std::string scholarType;
     std::string additionalInfo;
     std::string hostelRoom;
-    Student *next;
+    Student* next;
 
     Student(std::string n, std::string p, std::string e, int sid, int ur, std::string c, std::string sec, int rn, float m10, float m12, std::string st, std::string ai, std::string hr = "N/A")
         : name(n), phone(p), email(e), studentID(sid), universityRollNumber(ur), course(c), section(sec), rollNumber(rn),
-          marks10(m10), marks12(m12), scholarType(st), additionalInfo(ai), hostelRoom(hr), next(nullptr) {}
+        marks10(m10), marks12(m12), scholarType(st), additionalInfo(ai), hostelRoom(hr), next(nullptr) {}
 };
 
 class StudentList
 {
 private:
-    Student *head;
+    Student* head;
 
 public:
     StudentList() : head(nullptr) {}
 
-    void addStudent(Student *newStudent)
+    void addStudent(Student* newStudent)
     {
         if (!head)
         {
@@ -41,7 +42,7 @@ public:
         }
         else
         {
-            Student *temp = head;
+            Student* temp = head;
             while (temp->next)
             {
                 temp = temp->next;
@@ -59,7 +60,7 @@ public:
             return;
         }
         std::cout << "\n*** Student Records ***" << std::endl;
-        Student *temp = head;
+        Student* temp = head;
         while (temp)
         {
             std::cout << "--------------------------------------------------" << std::endl;
@@ -90,15 +91,15 @@ public:
 
         if (head->studentID == studentID)
         {
-            Student *temp = head;
+            Student* temp = head;
             head = head->next;
             delete temp;
             std::cout << "Record deleted successfully!" << std::endl;
             return;
         }
 
-        Student *current = head;
-        Student *previous = nullptr;
+        Student* current = head;
+        Student* previous = nullptr;
 
         while (current && current->studentID != studentID)
         {
@@ -123,7 +124,6 @@ int main()
 {
     StudentList studentList;
     std::string input;
-    int choice;
 
     while (true)
     {
@@ -132,21 +132,26 @@ int main()
         std::cout << "2. Display Records" << std::endl;
         std::cout << "3. Delete Record" << std::endl;
         std::cout << "4. Exit" << std::endl;
-        std::cout << "Enter your choice: ";
-
+        std::cout << "Enter your choice (1-4 or a-z): ";
         std::getline(std::cin, input);
 
-        try
+        std::transform(input.begin(), input.end(), input.begin(), ::tolower);
+
+        char ch = input[0];
+        int mappedChoice = -1;
+
+        if (input.length() == 1 && std::isalpha(ch))
         {
-            choice = std::stoi(input);
+            mappedChoice = ((ch - 'a') % 4) + 1;
         }
-        catch (...)
+        else if (input == "1" || input == "2" || input == "3" || input == "4")
         {
-            std::cout << "Invalid input! Exiting program." << std::endl;
-            break;
+            mappedChoice = std::stoi(input);
         }
 
-        if (choice == 1)
+        switch (mappedChoice)
+        {
+        case 1:
         {
             std::string name, phone, email, course, section, scholarType, additionalInfo, hostelRoom;
             int studentID, universityRollNumber, rollNumber;
@@ -191,30 +196,29 @@ int main()
                 std::getline(std::cin, hostelRoom);
             }
 
-            Student *newStudent = new Student(name, phone, email, studentID, universityRollNumber, course, section, rollNumber, marks10, marks12, scholarType, additionalInfo, hostelRoom);
+            Student* newStudent = new Student(name, phone, email, studentID, universityRollNumber, course, section, rollNumber, marks10, marks12, scholarType, additionalInfo, hostelRoom);
             studentList.addStudent(newStudent);
+            break;
         }
-        else if (choice == 2)
-        {
+        case 2:
             studentList.displayRecords();
-        }
-        else if (choice == 3)
+            break;
+        case 3:
         {
             int studentID;
             std::cout << "Enter Student ID to Delete: ";
             std::cin >> studentID;
             std::cin.ignore();
             studentList.deleteStudent(studentID);
+            break;
         }
-        else if (choice == 4)
-        {
+        case 4:
             std::cout << "Exiting..." << std::endl;
-            break;
-        }
-        else
-        {
-            std::cout << "Invalid choice! Exiting program." << std::endl;
-            break;
+            return 0;
+
+        default:
+            std::cout << "Invalid input! Exiting program." << std::endl;
+            return 0;
         }
     }
 
