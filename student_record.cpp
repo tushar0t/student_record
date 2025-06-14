@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <thread>     // ✅ Added for sleep
+#include <chrono>     // ✅ Added for sleep
 using namespace std;
 
 class Student
@@ -197,7 +199,15 @@ int main()
         else if (choice == 4)
         {
             cout << "Exiting..." << endl;
-            break;
+
+            // ✅ Keep alive for Render to prevent repeated restarts
+            cout << "Keeping program alive for Render..." << endl;
+            while (true)
+            {
+                this_thread::sleep_for(chrono::minutes(10));
+            }
+
+            return 0;
         }
         else
         {
