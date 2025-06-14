@@ -112,16 +112,12 @@ int main() {
         std::cout << "4. Exit" << std::endl;
         std::cout << "Enter your choice: ";
 
-        std::cin >> choice;
-
-        if (std::cin.fail()) {
+        if (!(std::cin >> choice)) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Invalid input! Please enter a number." << std::endl;
             continue;
         }
-
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         if (choice == 1) {
             std::string name, phone, email, course, section, scholarType, additionalInfo, hostelRoom;
@@ -129,6 +125,7 @@ int main() {
             float marks10, marks12;
 
             std::cout << "Enter Full Name: ";
+            std::cin.ignore();
             std::getline(std::cin, name);
             std::cout << "Enter Phone Number: ";
             std::getline(std::cin, phone);
@@ -136,23 +133,20 @@ int main() {
             std::getline(std::cin, email);
             std::cout << "Enter Student ID: ";
             std::cin >> studentID;
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Enter University Roll Number: ";
             std::cin >> universityRollNumber;
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.ignore();
             std::cout << "Enter Course: ";
             std::getline(std::cin, course);
             std::cout << "Enter Section: ";
             std::getline(std::cin, section);
             std::cout << "Enter Roll Number: ";
             std::cin >> rollNumber;
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Enter 10th Marks: ";
             std::cin >> marks10;
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Enter 12th Marks: ";
             std::cin >> marks12;
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.ignore();
             std::cout << "Enter Scholar Type (Day Scholar/Hostler): ";
             std::getline(std::cin, scholarType);
 
@@ -175,7 +169,6 @@ int main() {
             int studentID;
             std::cout << "Enter Student ID to Delete: ";
             std::cin >> studentID;
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             studentList.deleteStudent(studentID);
         } else if (choice == 4) {
             std::cout << "Exiting..." << std::endl;
