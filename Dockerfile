@@ -1,14 +1,15 @@
-# Use the official GCC image as base
+# Use official GCC image
+# Use official GCC image
 FROM gcc:latest
 
-# Set the working directory
+# Create working directory
 WORKDIR /app
 
-# Copy the C++ file into the container
-COPY student_record.cpp .
+# Copy all files
+COPY . .
 
-# Compile the C++ code
-RUN g++ -o student_app student_record.cpp
+# Compile your C++ program
+RUN g++ -o app student_record.cpp
 
-# Run the compiled program
-CMD ["./student_app"]
+# Run the app
+CMD ["./app"]

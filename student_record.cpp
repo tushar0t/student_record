@@ -1,31 +1,30 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <thread>     // ✅ Added for sleep
-#include <chrono>     // ✅ Added for sleep
-using namespace std;
+#include <thread>
+#include <chrono>
 
 class Student
 {
 public:
-    string name;
-    string phone;
-    string email;
+    std::string name;
+    std::string phone;
+    std::string email;
     int studentID;
     int universityRollNumber;
-    string course;
-    string section;
+    std::string course;
+    std::string section;
     int rollNumber;
     float marks10;
     float marks12;
-    string scholarType;
-    string additionalInfo;
-    string hostelRoom;
+    std::string scholarType;
+    std::string additionalInfo;
+    std::string hostelRoom;
     Student *next;
 
-    Student(string n, string p, string e, int sid, int ur, string c, string sec, int rn, float m10, float m12, string st, string ai, string hr = "N/A")
+    Student(std::string n, std::string p, std::string e, int sid, int ur, std::string c, std::string sec, int rn, float m10, float m12, std::string st, std::string ai, std::string hr = "N/A")
         : name(n), phone(p), email(e), studentID(sid), universityRollNumber(ur), course(c), section(sec), rollNumber(rn),
-          marks10(m10), marks12(m12), scholarType(st), additionalInfo(ai), hostelRoom(hr), next(NULL) {}
+          marks10(m10), marks12(m12), scholarType(st), additionalInfo(ai), hostelRoom(hr), next(nullptr) {}
 };
 
 class StudentList
@@ -34,7 +33,7 @@ private:
     Student *head;
 
 public:
-    StudentList() : head(NULL) {}
+    StudentList() : head(nullptr) {}
 
     void addStudent(Student *newStudent)
     {
@@ -51,33 +50,33 @@ public:
             }
             temp->next = newStudent;
         }
-        cout << "Record added successfully!" << endl;
+        std::cout << "Record added successfully!" << std::endl;
     }
 
     void displayRecords()
     {
         if (!head)
         {
-            cout << "No records to display." << endl;
+            std::cout << "No records to display." << std::endl;
             return;
         }
-        cout << "\n*** Student Records ***" << endl;
+        std::cout << "\n*** Student Records ***" << std::endl;
         Student *temp = head;
         while (temp)
         {
-            cout << "--------------------------------------------------" << endl;
-            cout << "Name: " << temp->name << "\nPhone: " << temp->phone << "\nEmail: " << temp->email << endl;
-            cout << "Student ID: " << temp->studentID << "\nUniversity Roll Number: " << temp->universityRollNumber << "\nCourse: " << temp->course << endl;
-            cout << "Section: " << temp->section << "\nRoll Number: " << temp->rollNumber << endl;
-            cout << "10th Marks: " << fixed << setprecision(2) << temp->marks10 << ", 12th Marks: " << temp->marks12 << endl;
-            cout << "Scholar Type: " << temp->scholarType << endl;
+            std::cout << "--------------------------------------------------" << std::endl;
+            std::cout << "Name: " << temp->name << "\nPhone: " << temp->phone << "\nEmail: " << temp->email << std::endl;
+            std::cout << "Student ID: " << temp->studentID << "\nUniversity Roll Number: " << temp->universityRollNumber << "\nCourse: " << temp->course << std::endl;
+            std::cout << "Section: " << temp->section << "\nRoll Number: " << temp->rollNumber << std::endl;
+            std::cout << "10th Marks: " << std::fixed << std::setprecision(2) << temp->marks10 << ", 12th Marks: " << temp->marks12 << std::endl;
+            std::cout << "Scholar Type: " << temp->scholarType << std::endl;
             if (temp->scholarType == "Day Scholar")
             {
-                cout << "Address: " << temp->additionalInfo << endl;
+                std::cout << "Address: " << temp->additionalInfo << std::endl;
             }
             else if (temp->scholarType == "Hostler")
             {
-                cout << "Hostel Name: " << temp->additionalInfo << "\nRoom Number: " << temp->hostelRoom << endl;
+                std::cout << "Hostel Name: " << temp->additionalInfo << "\nRoom Number: " << temp->hostelRoom << std::endl;
             }
             temp = temp->next;
         }
@@ -87,7 +86,7 @@ public:
     {
         if (!head)
         {
-            cout << "No records found to delete." << endl;
+            std::cout << "No records found to delete." << std::endl;
             return;
         }
 
@@ -96,12 +95,12 @@ public:
             Student *temp = head;
             head = head->next;
             delete temp;
-            cout << "Record deleted successfully!" << endl;
+            std::cout << "Record deleted successfully!" << std::endl;
             return;
         }
 
         Student *current = head;
-        Student *previous = NULL;
+        Student *previous = nullptr;
 
         while (current && current->studentID != studentID)
         {
@@ -113,11 +112,11 @@ public:
         {
             previous->next = current->next;
             delete current;
-            cout << "Record deleted successfully!" << endl;
+            std::cout << "Record deleted successfully!" << std::endl;
         }
         else
         {
-            cout << "Record not found for Student ID: " << studentID << endl;
+            std::cout << "Record not found for Student ID: " << studentID << std::endl;
         }
     }
 };
@@ -129,57 +128,57 @@ int main()
 
     while (true)
     {
-        cout << "\n--- Student Record System ---" << endl;
-        cout << "1. Add Record" << endl;
-        cout << "2. Display Records" << endl;
-        cout << "3. Delete Record" << endl;
-        cout << "4. Exit" << endl;
-        cout << "Enter your choice: ";
-        cin >> choice;
+        std::cout << "\n--- Student Record System ---" << std::endl;
+        std::cout << "1. Add Record" << std::endl;
+        std::cout << "2. Display Records" << std::endl;
+        std::cout << "3. Delete Record" << std::endl;
+        std::cout << "4. Exit" << std::endl;
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
 
         if (choice == 1)
         {
-            string name, phone, email, course, section, scholarType, additionalInfo, hostelRoom;
+            std::string name, phone, email, course, section, scholarType, additionalInfo, hostelRoom;
             int studentID, universityRollNumber, rollNumber;
             float marks10, marks12;
 
-            cout << "Enter Full Name: ";
-            cin.ignore();
-            getline(cin, name);
-            cout << "Enter Phone Number: ";
-            getline(cin, phone);
-            cout << "Enter Email ID: ";
-            getline(cin, email);
-            cout << "Enter Student ID: ";
-            cin >> studentID;
-            cout << "Enter University Roll Number: ";
-            cin >> universityRollNumber;
-            cin.ignore();
-            cout << "Enter Course: ";
-            getline(cin, course);
-            cout << "Enter Section: ";
-            getline(cin, section);
-            cout << "Enter Roll Number: ";
-            cin >> rollNumber;
-            cout << "Enter 10th Marks: ";
-            cin >> marks10;
-            cout << "Enter 12th Marks: ";
-            cin >> marks12;
-            cin.ignore();
-            cout << "Enter Scholar Type (Day Scholar/Hostler): ";
-            getline(cin, scholarType);
+            std::cout << "Enter Full Name: ";
+            std::cin.ignore();
+            std::getline(std::cin, name);
+            std::cout << "Enter Phone Number: ";
+            std::getline(std::cin, phone);
+            std::cout << "Enter Email ID: ";
+            std::getline(std::cin, email);
+            std::cout << "Enter Student ID: ";
+            std::cin >> studentID;
+            std::cout << "Enter University Roll Number: ";
+            std::cin >> universityRollNumber;
+            std::cin.ignore();
+            std::cout << "Enter Course: ";
+            std::getline(std::cin, course);
+            std::cout << "Enter Section: ";
+            std::getline(std::cin, section);
+            std::cout << "Enter Roll Number: ";
+            std::cin >> rollNumber;
+            std::cout << "Enter 10th Marks: ";
+            std::cin >> marks10;
+            std::cout << "Enter 12th Marks: ";
+            std::cin >> marks12;
+            std::cin.ignore();
+            std::cout << "Enter Scholar Type (Day Scholar/Hostler): ";
+            std::getline(std::cin, scholarType);
             if (scholarType == "Day Scholar")
             {
-                cout << "Enter Address: ";
-                getline(cin, additionalInfo);
+                std::cout << "Enter Address: ";
+                std::getline(std::cin, additionalInfo);
                 hostelRoom = "N/A";
             }
             else if (scholarType == "Hostler")
             {
-                cout << "Enter Hostel Name: ";
-                getline(cin, additionalInfo);
-                cout << "Enter Hostel Room Number: ";
-                getline(cin, hostelRoom);
+                std::cout << "Enter Hostel Name: ";
+                std::getline(std::cin, additionalInfo);
+                std::cout << "Enter Hostel Room Number: ";
+                std::getline(std::cin, hostelRoom);
             }
 
             Student *newStudent = new Student(name, phone, email, studentID, universityRollNumber, course, section, rollNumber, marks10, marks12, scholarType, additionalInfo, hostelRoom);
@@ -192,27 +191,26 @@ int main()
         else if (choice == 3)
         {
             int studentID;
-            cout << "Enter Student ID to Delete: ";
-            cin >> studentID;
+            std::cout << "Enter Student ID to Delete: ";
+            std::cin >> studentID;
             studentList.deleteStudent(studentID);
         }
         else if (choice == 4)
         {
-            cout << "Exiting..." << endl;
-
-            // ✅ Keep alive for Render to prevent repeated restarts
-            cout << "Keeping program alive for Render..." << endl;
-            while (true)
-            {
-                this_thread::sleep_for(chrono::minutes(10));
-            }
-
-            return 0;
+            std::cout << "Exiting..." << std::endl;
+            break;
         }
         else
         {
-            cout << "Invalid choice! Please try again." << endl;
+            std::cout << "Invalid choice! Please try again." << std::endl;
         }
+    }
+
+    // Keep alive for Render deployment
+    std::cout << "Keeping program alive for Render background worker..." << std::endl;
+    while (true)
+    {
+        std::this_thread::sleep_for(std::chrono::minutes(10));
     }
 
     return 0;
