@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <thread>
-#include <chrono>
+#include <limits>
 
 class Student
 {
@@ -20,7 +19,7 @@ public:
     std::string scholarType;
     std::string additionalInfo;
     std::string hostelRoom;
-    Student *next;
+    Student* next;
 
     Student(std::string n, std::string p, std::string e, int sid, int ur, std::string c, std::string sec, int rn, float m10, float m12, std::string st, std::string ai, std::string hr = "N/A")
         : name(n), phone(p), email(e), studentID(sid), universityRollNumber(ur), course(c), section(sec), rollNumber(rn),
@@ -30,12 +29,12 @@ public:
 class StudentList
 {
 private:
-    Student *head;
+    Student* head;
 
 public:
     StudentList() : head(nullptr) {}
 
-    void addStudent(Student *newStudent)
+    void addStudent(Student* newStudent)
     {
         if (!head)
         {
@@ -43,7 +42,7 @@ public:
         }
         else
         {
-            Student *temp = head;
+            Student* temp = head;
             while (temp->next)
             {
                 temp = temp->next;
@@ -60,8 +59,9 @@ public:
             std::cout << "No records to display." << std::endl;
             return;
         }
+
         std::cout << "\n*** Student Records ***" << std::endl;
-        Student *temp = head;
+        Student* temp = head;
         while (temp)
         {
             std::cout << "--------------------------------------------------" << std::endl;
@@ -92,15 +92,15 @@ public:
 
         if (head->studentID == studentID)
         {
-            Student *temp = head;
+            Student* temp = head;
             head = head->next;
             delete temp;
             std::cout << "Record deleted successfully!" << std::endl;
             return;
         }
 
-        Student *current = head;
-        Student *previous = nullptr;
+        Student* current = head;
+        Student* previous = nullptr;
 
         while (current && current->studentID != studentID)
         {
@@ -135,6 +135,14 @@ int main()
         std::cout << "4. Exit" << std::endl;
         std::cout << "Enter your choice: ";
         std::cin >> choice;
+
+        if (std::cin.fail())
+        {
+            std::cin.clear(); // clear error state
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
+            std::cout << "Invalid input! Please enter a number." << std::endl;
+            continue;
+        }
 
         if (choice == 1)
         {
@@ -181,7 +189,7 @@ int main()
                 std::getline(std::cin, hostelRoom);
             }
 
-            Student *newStudent = new Student(name, phone, email, studentID, universityRollNumber, course, section, rollNumber, marks10, marks12, scholarType, additionalInfo, hostelRoom);
+            Student* newStudent = new Student(name, phone, email, studentID, universityRollNumber, course, section, rollNumber, marks10, marks12, scholarType, additionalInfo, hostelRoom);
             studentList.addStudent(newStudent);
         }
         else if (choice == 2)
@@ -204,13 +212,6 @@ int main()
         {
             std::cout << "Invalid choice! Please try again." << std::endl;
         }
-    }
-
-    // Keep alive for Render deployment
-    std::cout << "Keeping program alive for Render background worker..." << std::endl;
-    while (true)
-    {
-        std::this_thread::sleep_for(std::chrono::minutes(10));
     }
 
     return 0;
