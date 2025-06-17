@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.embeddedhtml": "html",
-        "thread": "cpp",
-        "ostream": "cpp"
-    }
-}
