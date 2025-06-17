@@ -2,285 +2,508 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Management System</title>
-  <style>
-    :root {
-      --primary: #3b82f6;
-      --accent: #60a5fa;
-      --highlight: #38bdf8;
-      --bg-light: linear-gradient(to right, #e0f7fa, #e6f0ff);
-      --bg-dark: linear-gradient(to right, #0f172a, #1e293b);
-      --text-light: #1E1E1E;
-      --text-dark: #f5f5f5;
-      --glass-bg-light: rgba(255, 255, 255, 0.3);
-      --glass-bg-dark: rgba(255, 255, 255, 0.08);
-    }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: var(--bg-light);
-      color: var(--text-light);
-      transition: background 0.4s, color 0.4s;
-    }
-
-    body.dark {
-      background: var(--bg-dark);
-      color: var(--text-dark);
-    }
-
-    .header {
-      text-align: center;
-      padding: 30px 10px 10px;
-      font-size: 32px;
-      font-weight: bold;
-      color: var(--primary);
-    }
-
-    .toggle-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .menu {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin: 20px;
-    }
-
-    .menu button {
-      padding: 12px 28px;
-      font-size: 16px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(to right, var(--primary), var(--accent));
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-    }
-
-    .menu button:hover {
-      opacity: 0.92;
-    }
-
-    .section {
-      display: none;
-      max-width: 800px;
-      margin: 30px auto;
-      background: var(--glass-bg-light);
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(12px);
-      transform: scale(0.95);
-      opacity: 0;
-      animation: fadeIn 0.6s ease-in-out forwards;
-    }
-
-    .section.dark {
-      background: var(--glass-bg-dark);
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    form input, form select {
-      width: 100%;
-      padding: 10px;
-      margin: 12px 0;
-      border-radius: 8px;
-      border: none;
-      background: rgba(255, 255, 255, 0.5);
-      font-size: 14px;
-    }
-
-    form button {
-      margin-top: 10px;
-      padding: 10px 22px;
-      background: var(--highlight);
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .record-display {
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.4);
-      border-radius: 14px;
-      backdrop-filter: blur(10px);
-      height: 280px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      font-family: 'Courier New', monospace;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: #111;
-    }
-
-    body.dark .record-display {
-      background: rgba(255, 255, 255, 0.12);
-      color: #f0f0f0;
-    }
-
-    .thank-you {
-      text-align: center;
-      font-size: 20px;
-      color: var(--primary);
-      padding-top: 30px;
-    }
-
-    h2 {
-      color: var(--primary);
-    }
-
-    body.dark h2, body.dark .header {
-      color: var(--accent);
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .switch input { display: none; }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0;
-      right: 0; bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: var(--primary);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    @media (max-width: 600px) {
-      .menu {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="header">Student Management System</div>
-  <div class="toggle-container">
-    <label>🌙 Dark Mode</label>
-    <label class="switch">
-      <input type="checkbox" id="themeToggle">
-      <span class="slider"></span>
-    </label>
-  </div>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-graduation-cap"></i> Student Management System</h1>
+      <p>Efficiently manage student records with Aiven MySQL integration</p>
+    </div>
 
-  <div class="menu">
-    <button onclick="showSection('insert')">Add</button>
-    <button onclick="showSection('delete')">Delete</button>
-    <button onclick="showSection('display')">Show</button>
-    <button onclick="showSection('exit')">Exit</button>
-  </div>
+    <div class="navigation">
+      <button class="nav-btn active" onclick="showSection('add')">
+        <i class="fas fa-user-plus"></i> Add Student
+      </button>
+      <button class="nav-btn" onclick="showSection('view')">
+        <i class="fas fa-users"></i> View Records
+      </button>
+      <button class="nav-btn" onclick="showSection('delete')">
+        <i class="fas fa-user-minus"></i> Delete Student
+      </button>
+      <button class="nav-btn" onclick="showSection('stats')">
+        <i class="fas fa-chart-bar"></i> Statistics
+      </button>
+    </div>
 
-  <div id="insert" class="section active">
-    <h2>Add Student</h2>
-    <form id="insertForm">
-      <input type="text" name="name" placeholder="Full Name" required />
-      <input type="text" name="phone" placeholder="Phone Number" />
-      <input type="email" name="email" placeholder="Email" />
-      <input type="number" name="studentID" placeholder="Student ID" required />
-      <input type="number" name="universityRoll" placeholder="University Roll Number" />
-      <input type="text" name="course" placeholder="Course" />
-      <input type="text" name="section" placeholder="Section" />
-      <input type="number" name="rollNo" placeholder="Roll Number" />
-      <input type="number" step="0.01" name="marks10" placeholder="10th Marks" />
-      <input type="number" step="0.01" name="marks12" placeholder="12th Marks" />
-      <select name="scholarType">
-        <option value="">Scholar Type</option>
-        <option value="Day Scholar">Day Scholar</option>
-        <option value="Hostler">Hostler</option>
-      </select>
-      <input type="text" name="additionalInfo" placeholder="Address or Hostel Name" />
-      <input type="text" name="hostelRoom" placeholder="Hostel Room (if any)" />
-      <button type="submit">Submit</button>
-    </form>
-  </div>
+    <!-- Add Student Section -->
+    <div id="add" class="section active">
+      <h2><i class="fas fa-user-plus"></i> Add New Student</h2>
+      <div id="addAlert"></div>
+      <form id="addForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label><i class="fas fa-user"></i> Full Name *</label>
+            <input type="text" name="name" class="form-input" placeholder="name" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-phone"></i> Phone Number</label>
+            <input type="tel" name="phone" class="form-input" placeholder="(+91) 00000-00000">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-envelope"></i> Email Address</label>
+            <input type="email" name="email" class="form-input" placeholder="name@example.com">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-id-card"></i> Student ID *</label>
+            <input type="number" name="studentID" class="form-input" placeholder="1001" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-hashtag"></i> University Roll Number</label>
+            <input type="number" name="universityRoll" class="form-input" placeholder="2023001">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-book"></i> Course</label>
+            <input type="text" name="course" class="form-input" placeholder="Computer Science">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-layer-group"></i> Section</label>
+            <input type="text" name="section" class="form-input" placeholder="A">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-list-ol"></i> Roll Number</label>
+            <input type="number" name="rollNumber" class="form-input" placeholder="25">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-percentage"></i> 10th Grade Marks</label>
+            <input type="number" step="0.01" name="marks10" class="form-input" placeholder="92.5">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-percentage"></i> 12th Grade Marks</label>
+            <input type="number" step="0.01" name="marks12" class="form-input" placeholder="88.0">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-home"></i> Scholar Type</label>
+            <select name="scholarType" class="form-input" required>
+              <option value="">Select Type</option>
+              <option value="Day Scholar">Day Scholar</option>
+              <option value="Hostler">Hostler</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-map-marker-alt"></i> Address/Hostel Name</label>
+            <input type="text" name="additionalInfo" class="form-input" placeholder="123 Main St or Hostel Name" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-door-open"></i> Hostel Room (if applicable)</label>
+            <input type="text" name="hostelRoom" class="form-input" placeholder="Room 305">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Add Student
+        </button>
+      </form>
+    </div>
 
-  <div id="delete" class="section">
-    <h2>Delete Student</h2>
-    <form id="deleteForm">
-      <input type="number" name="studentID" placeholder="Enter Student ID to delete" required />
-      <button type="submit">Delete</button>
-    </form>
-  </div>
+    <!-- View Records Section -->
+    <div id="view" class="section">
+      <h2><i class="fas fa-users"></i> Student Records</h2>
+      <div id="viewAlert"></div>
+      
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-number" id="totalStudents">0</div>
+          <div class="stat-label">Total Students</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-home"></i></div>
+          <div class="stat-number" id="dayScholars">0</div>
+          <div class="stat-label">Day Scholars</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-building"></i></div>
+          <div class="stat-number" id="hostlers">0</div>
+          <div class="stat-label">Hostlers</div>
+        </div>
+      </div>
+      
+      <button onclick="loadRecords()" class="btn btn-success">
+        <i class="fas fa-sync-alt"></i> Refresh Records
+      </button>
+      
+      <div class="records-container">
+        <div class="records-header">
+          <h3><i class="fas fa-table"></i> Student Records</h3>
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search students..." class="form-input" oninput="filterStudents()">
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="student-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Section</th>
+                <th>Roll No</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>10th Marks</th>
+                <th>12th Marks</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recordsDisplay">
+              <tr>
+                <td colspan="10">
+                  <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-users-slash"></i></div>
+                    <h3>No Student Records</h3>
+                    <p>Click "Refresh Records" to load data or add new students</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
-  <div id="display" class="section">
-    <h2>All Student Records</h2>
-    <button onclick="loadRecords()">Load Records</button>
-    <div class="record-display" id="recordBox">
-      Click "Load Records" to display data...
+    <!-- Delete Student Section -->
+    <div id="delete" class="section">
+      <h2><i class="fas fa-user-minus"></i> Delete Student Record</h2>
+      <div id="deleteAlert"></div>
+      <form id="deleteForm">
+        <div class="form-group">
+          <label><i class="fas fa-id-card"></i> Student ID to Delete *</label>
+          <input type="number" name="studentID" class="form-input" placeholder="Enter Student ID" required>
+        </div>
+        <button type="submit" class="btn btn-danger">
+          <i class="fas fa-trash-alt"></i> Delete Student
+        </button>
+      </form>
+    </div>
+
+    <!-- Statistics Section -->
+    <div id="stats" class="section">
+      <h2><i class="fas fa-chart-bar"></i> System Statistics</h2>
+      <div id="statsAlert"></div>
+      
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-percentage"></i></div>
+          <div class="stat-number" id="avgMarks10">0</div>
+          <div class="stat-label">Avg 10th Marks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-percentage"></i></div>
+          <div class="stat-number" id="avgMarks12">0</div>
+          <div class="stat-label">Avg 12th Marks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-crown"></i></div>
+          <div class="stat-number" id="topStudent">-</div>
+          <div class="stat-label">Top Student</div>
+        </div>
+      </div>
+      
+      <button onclick="calculateStats()" class="btn btn-primary">
+        <i class="fas fa-calculator"></i> Calculate Statistics
+      </button>
     </div>
   </div>
 
-  <div id="exit" class="section">
-    <div class="thank-you">Thank you for using the system!</div>
-  </div>
-
   <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+    // Navigation functionality
+    function showSection(sectionId) {
+      // Remove active class from all sections and nav buttons
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Add active class to selected section and button
+      document.getElementById(sectionId).classList.add('active');
+      event.target.classList.add('active');
+
+      // Load records automatically when viewing
+      if (sectionId === 'view') {
+        loadRecords();
+      }
+      // Calculate stats when viewing stats
+      if (sectionId === 'stats') {
+        calculateStats();
+      }
     }
 
-    function loadRecords() {
-      const box = document.getElementById("recordBox");
-      box.textContent = "Loading records...\n(This will later be updated with real data)";
+    // Show alert message
+    function showAlert(message, type, section) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type}`;
+      alertDiv.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        ${message}
+      `;
+      
+      const container = document.getElementById(`${section}Alert`);
+      container.innerHTML = '';
+      container.appendChild(alertDiv);
+      
+      // Auto-remove after 3 seconds
+      setTimeout(() => {
+        alertDiv.remove();
+      }, 3000);
     }
 
-  const themeToggle = document.getElementById("themeToggle");
-  themeToggle.addEventListener("change", () => {
-    document.body.classList.toggle("dark");
-
-    // Also toggle dark style on all section cards
-    document.querySelectorAll(".section").forEach(section => {
-      section.classList.toggle("dark");
+    // Add student form submission
+    document.getElementById('addForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const studentData = Object.fromEntries(formData.entries());
+      
+      try {
+        const response = await fetch('http://localhost:3000/students', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(studentData)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          showAlert('Student added successfully!', 'success', 'add');
+          this.reset();
+          updateStats();
+          if (document.getElementById('view').classList.contains('active')) {
+            loadRecords();
+          }
+        } else {
+          showAlert(result.error || 'Error adding student', 'error', 'add');
+        }
+      } catch (error) {
+        showAlert('Network error: ' + error.message, 'error', 'add');
+      }
     });
-  });
+
+    // Delete student form submission
+    document.getElementById('deleteForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const studentID = formData.get('studentID');
+      
+      try {
+        const response = await fetch(`http://localhost:3000/students/${studentID}`, {
+          method: 'DELETE'
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          showAlert('Student deleted successfully!', 'success', 'delete');
+          this.reset();
+          updateStats();
+          if (document.getElementById('view').classList.contains('active')) {
+            loadRecords();
+          }
+        } else {
+          showAlert(result.error || 'Error deleting student', 'error', 'delete');
+        }
+      } catch (error) {
+        showAlert('Network error: ' + error.message, 'error', 'delete');
+      }
+    });
+
+    // Load and display records
+    async function loadRecords() {
+      const recordsDisplay = document.getElementById('recordsDisplay');
+      recordsDisplay.innerHTML = '<tr><td colspan="10"><div class="empty-state">Loading records...</div></td></tr>';
+      
+      try {
+        const response = await fetch('http://localhost:3000/students');
+        const students = await response.json();
+        
+        if (!students.length) {
+          recordsDisplay.innerHTML = `
+            <tr>
+              <td colspan="10">
+                <div class="empty-state">
+                  <div class="empty-state-icon"><i class="fas fa-users-slash"></i></div>
+                  <h3>No Student Records</h3>
+                  <p>Add new students to see them listed here</p>
+                </div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        let html = '';
+        students.forEach(student => {
+          html += `
+            <tr>
+              <td>${student.studentID}</td>
+              <td><strong>${student.name}</strong></td>
+              <td>${student.course || 'N/A'}</td>
+              <td>${student.section || 'N/A'}</td>
+              <td>${student.rollNumber || 'N/A'}</td>
+              <td>${student.email || 'N/A'}</td>
+              <td>${student.scholarType || 'N/A'}</td>
+              <td>${student.marks10 || 'N/A'}</td>
+              <td>${student.marks12 || 'N/A'}</td>
+              <td class="actions">
+                <button class="action-btn view" title="View Details" onclick="viewStudentDetails(${student.studentID})">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="action-btn delete" title="Delete" onclick="deleteStudentPrompt(${student.studentID})">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+
+        recordsDisplay.innerHTML = html;
+        updateStats();
+      } catch (error) {
+        recordsDisplay.innerHTML = `
+          <tr>
+            <td colspan="10">
+              <div class="empty-state">
+                <div class="empty-state-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <h3>Error Loading Records</h3>
+                <p>${error.message}</p>
+              </div>
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    // Filter students based on search input
+    function filterStudents() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('.student-table tbody tr');
+      
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let found = false;
+        
+        cells.forEach(cell => {
+          if (cell.textContent.toLowerCase().includes(searchTerm)) {
+            found = true;
+          }
+        });
+        
+        row.style.display = found ? '' : 'none';
+      });
+    }
+
+    // View student details
+    async function viewStudentDetails(studentID) {
+      try {
+        const response = await fetch(`http://localhost:3000/students`);
+        const students = await response.json();
+        const student = students.find(s => s.studentID == studentID);
+        
+        if (!student) {
+          showAlert('Student not found!', 'error', 'view');
+          return;
+        }
+        
+        // Show student details in alert
+        const details = `
+          <strong>Name:</strong> ${student.name}<br>
+          <strong>Student ID:</strong> ${student.studentID}<br>
+          <strong>Course:</strong> ${student.course || 'N/A'}<br>
+          <strong>Section:</strong> ${student.section || 'N/A'}<br>
+          <strong>Roll No:</strong> ${student.rollNumber || 'N/A'}<br>
+          <strong>Email:</strong> ${student.email || 'N/A'}<br>
+          <strong>Phone:</strong> ${student.phone || 'N/A'}<br>
+          <strong>10th Marks:</strong> ${student.marks10 || 'N/A'}<br>
+          <strong>12th Marks:</strong> ${student.marks12 || 'N/A'}<br>
+          <strong>Scholar Type:</strong> ${student.scholarType || 'N/A'}<br>
+          <strong>${student.scholarType === 'Hostler' ? 'Hostel' : 'Address'}:</strong> ${student.additionalInfo || 'N/A'}<br>
+          ${student.scholarType === 'Hostler' ? `<strong>Hostel Room:</strong> ${student.hostelRoom || 'N/A'}<br>` : ''}
+        `;
+        
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-success';
+        alertDiv.innerHTML = `<i class="fas fa-info-circle"></i> Student Details<br><br>${details}`;
+        
+        const container = document.getElementById('viewAlert');
+        container.innerHTML = '';
+        container.appendChild(alertDiv);
+        
+        // Auto-remove after 10 seconds
+        setTimeout(() => {
+          alertDiv.remove();
+        }, 10000);
+        
+      } catch (error) {
+        showAlert('Error loading student details: ' + error.message, 'error', 'view');
+      }
+    }
+
+    // Delete student prompt
+    function deleteStudentPrompt(studentID) {
+      if (confirm(`Are you sure you want to delete student with ID ${studentID}?`)) {
+        fetch(`http://localhost:3000/students/${studentID}`, {
+          method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(result => {
+          if (result.message) {
+            showAlert(`Student with ID ${studentID} deleted successfully!`, 'success', 'view');
+            loadRecords();
+            updateStats();
+          } else {
+            showAlert(result.error || 'Error deleting student', 'error', 'view');
+          }
+        })
+        .catch(error => {
+          showAlert('Network error: ' + error.message, 'error', 'view');
+        });
+      }
+    }
+
+    // Update statistics display
+    async function updateStats() {
+      try {
+        const response = await fetch('http://localhost:3000/stats');
+        const stats = await response.json();
+        
+        document.getElementById('totalStudents').textContent = stats.total;
+        document.getElementById('dayScholars').textContent = stats.dayScholars;
+        document.getElementById('hostlers').textContent = stats.hostlers;
+      } catch (error) {
+        console.error('Error updating stats:', error);
+      }
+    }
+
+    // Calculate and display detailed statistics
+    async function calculateStats() {
+      try {
+        const response = await fetch('http://localhost:3000/stats');
+        const stats = await response.json();
+        
+        document.getElementById('avgMarks10').textContent = stats.avgMarks10;
+        document.getElementById('avgMarks12').textContent = stats.avgMarks12;
+        document.getElementById('topStudent').textContent = stats.topStudent || 'N/A';
+        
+        showAlert('Statistics updated successfully!', 'success', 'stats');
+      } catch (error) {
+        showAlert('Error calculating stats: ' + error.message, 'error', 'stats');
+      }
+    }
+
+    // Initialize display
+    if (document.getElementById('view').classList.contains('active')) {
+      loadRecords();
+    }
+    
+    // Initialize stats
+    updateStats();
   </script>
 </body>
 </html>
